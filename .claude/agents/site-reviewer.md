@@ -25,6 +25,12 @@ You review the current branch's diff against main. You do not fix anything.
 - Every error code a route handler can return has a test, and each test asserts the key is not in the response.
 <!-- added 28 Sep: search read ?q= from the URL without the 60-char cap that the input's maxLength enforced -->
 - Values read from the URL (search params, route params) get the same validation as the form input they mirror.
+<!-- added 28 Sep: all Compare checkboxes on /favourites had the same accessible name, "Compare" -->
+- Repeated controls in a list (checkboxes, buttons) have an accessible name that includes the item they act on.
+<!-- added 28 Sep: CompareTable imported its types from app/api/compare/route.ts, one edit away from bundling lib/weather.ts -->
+- Client components never import from `app/api/**` or from a module that reads `process.env`; shared types live in a `lib/` file with no server imports.
+<!-- added 28 Sep: this reviewer suggested requestAnimationFrame to re-announce a live region; rAF never fires in a tab that isn't painting, so the note never appeared -->
+- Before suggesting a timing fix (rAF, microtask, effect order), say how it was checked; prefer setTimeout for state that must update when the tab isn't painting.
 
 ## Output
 For each finding: file and line, the rule, one sentence on why, the smallest fix.

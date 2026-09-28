@@ -45,5 +45,11 @@ button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid
 .compare-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .compare-bar p { margin: 0; }
 .button { display: inline-block; padding: 6px 14px; border-radius: 6px; background: var(--accent); color: #fff; text-decoration: none; }
-button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:disabled, button[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 .pick { display: block; padding: 0 12px 12px; }
+
+.table-wrap { overflow-x: auto; }
+.compare { border-collapse: collapse; width: 100%; background: var(--card); }
+.compare caption { text-align: left; color: var(--muted); padding-bottom: 8px; }
+.compare th, .compare td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.compare th[scope="row"] { color: var(--muted); font-weight: 600; white-space: nowrap; }

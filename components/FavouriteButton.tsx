@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { FAVOURITES_EVENT, isFavourite, toggleFavourite } from "@/lib/favourites";
 
+// The label carries the state ("Save…" / "Saved — remove"), so no aria-pressed: both at once read as a contradiction.
 export default function FavouriteButton({ trailId }: { trailId: string }) {
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState<boolean | null>(null);
 
   useEffect(() => {
     const sync = () => setSaved(isFavourite(trailId));
@@ -19,7 +20,7 @@ export default function FavouriteButton({ trailId }: { trailId: string }) {
 
   return (
     <p>
-      <button aria-pressed={saved} onClick={() => setSaved(toggleFavourite(trailId))}>
+      <button disabled={saved === null} onClick={() => setSaved(toggleFavourite(trailId))}>
         {saved ? "Saved — remove" : "Save to favourites"}
       </button>
     </p>

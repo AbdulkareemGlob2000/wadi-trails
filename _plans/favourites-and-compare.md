@@ -5,7 +5,7 @@
 | **Slug** | `favourites-and-compare` |
 | **Spec** | `_specs/favourites-and-compare.md` |
 | **Branch** | `claude/feature/favourites-and-compare` |
-| **Status** | In progress |
+| **Status** | Done |
 | **Created** | 2026-09-28 |
 | **Updated** | 2026-09-28 |
 
@@ -36,9 +36,9 @@ See spec.
 |---|---|---|
 | 1 | Elevation data and the favourites store | Done |
 | 2 | Favourites page | Done |
-| 3 | Compare route handler and page | Not started |
+| 3 | Compare route handler and page | Done |
 
-**Current state of the working tree** — Phases 1–2 committed; nothing uncommitted.
+**Current state of the working tree** — All three phases committed on the branch; merged to main after the final review.
 
 ## Action required
 
@@ -118,11 +118,11 @@ See spec.
 
 ### Tasks
 
-- [ ] Extract the OpenWeather call from `app/api/weather/route.ts` into `lib/weather.ts`, returning `{ ok: true, weather } | { ok: false, status, code, message }`. `/api/weather` then maps that to its response, and its existing tests must stay green unchanged.
-- [ ] Create `app/api/compare/route.ts` as `GET ?ids=a,b[,c]`.
-- [ ] Create `tests/compare-route.test.ts`.
-- [ ] Create `app/compare/page.tsx` (server wrapper with PageHeader) and the `components/CompareTable.tsx` client component with four states.
-- [ ] Update CLAUDE.md's "Where things live" to mention `lib/weather.ts`.
+- [x] Extract the OpenWeather call from `app/api/weather/route.ts` into `lib/weather.ts`, returning `{ ok: true, weather } | { ok: false, status, code, message }`. `/api/weather` then maps that to its response, and its existing tests must stay green unchanged.
+- [x] Create `app/api/compare/route.ts` as `GET ?ids=a,b[,c]`.
+- [x] Create `tests/compare-route.test.ts`.
+- [x] Create `app/compare/page.tsx` (server wrapper with PageHeader) and the `components/CompareTable.tsx` client component with four states.
+- [x] Update CLAUDE.md's "Where things live" to mention `lib/weather.ts`.
 
 ### Technical details
 
@@ -162,7 +162,11 @@ See spec.
 
 ## Deviations
 
-None so far.
+- **Phase 3 — types moved out of the route module.** The plan had CompareTable import `ComparedTrail` from `app/api/compare/route.ts`. The reviewer pointed out that a client component importing a route module is one keystroke from pulling `lib/weather.ts` (and the key read) into the bundle. Types and the id parser now live in `lib/compare.ts`, which has no server imports.
+- **Phase 3 — id validation shared, and run on the client too.** The plan put the 2–3 distinct ids check only in the route handler; spec §8 says "Both". `parseCompareIds` in `lib/compare.ts` is used by the route and by CompareTable, which goes straight to the empty state without a fetch.
+- **Phases 2–3 — save button and compare button accessibility changed from the spec.** Spec §5 said screen readers "hear its pressed state"; with a label that also changes, `aria-pressed` read as "Saved — remove, pressed". Dropped `aria-pressed`, kept the changing label, and amended spec §5. The disabled Compare button became `aria-disabled` with a hint, so keyboard users can reach it and learn why it does nothing.
+- **Phases 1–3 — one session, no `/clear`.** The plan assumes a fresh session per phase. All three phases were executed in one Claude Code session; the plan file was still updated after every phase as if a new session would pick it up.
+- **Open, not done:** `import "server-only"` in `lib/weather.ts` (reviewer advisory 5). Needs a new dependency and a Vitest alias; left for a follow-up.
 
 ## Session log
 
@@ -170,3 +174,4 @@ None so far.
 |---|---|---|
 | 2026-09-28 | 1 | Session 1. Added elevationGainM to all 11 trails (type, data, test, CLAUDE.md, /add-category) and the favourites store + button. 26 tests green, build green. Browser: Save → "Saved — remove", aria-pressed=true, survives reload; Soap House shows 350 m. |
 | 2026-09-28 | 2 | Same Claude Code session as phase 1 (no /clear — see Deviations). Nav link, /favourites with loading/empty/error/success, compare ticks. Browser: empty message; 4 saved → newest first with region names; button disabled at 1 pick; 4th pick refused with note; link /compare?ids=a,b,c in tick order; corrupt storage → error + Retry. |
+| 2026-09-28 | 3 | Same session. Extracted lib/weather.ts (existing /api/weather tests unchanged and green), /api/compare + 8 tests, /compare page. Browser: 3 trails side by side, 7 rows in house format, "Weather unavailable" without a key, ?ids=nope → empty state; no client chunk mentions OPENWEATHER_API_KEY or api.openweathermap.org. **site-reviewer run 1: 4 BLOCKING** — no loading/error in app/favourites and app/compare; compare tests missing key-absence checks and two weatherError paths; ?ids= not validated on the client; any 400 treated as empty — plus 9 ADVISORY. All BLOCKING and 8 of 9 advisories fixed (see Deviations). Browser re-check found the reviewer's suggested requestAnimationFrame re-announce never fired in a tab that isn't painting → setTimeout. 37 tests green, build green. **site-reviewer run 2: no BLOCKING**, 2 ADVISORY (favourites page imported data/ directly; /api/weather 400/503 tests lacked key-absence checks) — both fixed. 3 reviewer lines added (accessible names on repeated controls; no client imports from app/api; timing-fix suggestions). |

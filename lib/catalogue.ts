@@ -15,3 +15,7 @@ export function listTrails(regionSlug: string): Trail[] {
 export function getTrail(id: string): Trail | undefined {
   return trails.find((t) => t.id === id);
 }
+
+export function listAllTrails(): Trail[] {
+  return trails;
+}

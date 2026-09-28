@@ -61,7 +61,7 @@ Choosing a walk for a weekend usually means weighing two or three trails in diff
 
 **Interaction details** — Favourites are listed with the most recently saved first. Removing a favourite from its trail page takes it off the Favourites page and out of any selection. The Compare button stays disabled until two trails are ticked. Compare ticks are not remembered after leaving the page.
 
-**Accessibility** — The save button says whether the trail is saved, and screen readers hear its pressed state. The compare table has a caption and row headers. The note refusing a fourth pick is announced politely.
+**Accessibility** — The save button's label says whether the trail is saved ("Save to favourites" / "Saved — remove"); it does not also use a pressed state, because the two together read as a contradiction. Each Compare tick is labelled with its trail's name, and the Compare button stays focusable below two ticks with a hint saying why it does nothing. The compare table has a caption and row headers. The note refusing a fourth pick is announced politely.
 
 ## 6. Interface contract
 

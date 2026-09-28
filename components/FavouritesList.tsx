@@ -49,7 +49,10 @@ export default function FavouritesList({ cards }: { cards: FavouriteCard[] }) {
       setPicked(picked.filter((x) => x !== id));
       setNote("");
     } else if (picked.length >= MAX_COMPARE) {
-      setNote("You can compare up to three trails.");
+      // Clear first so a repeated refusal changes the live region and is announced again.
+      // setTimeout, not requestAnimationFrame: rAF never fires in a tab that isn't painting.
+      setNote("");
+      setTimeout(() => setNote("You can compare up to three trails."), 50);
     } else {
       setPicked([...picked, id]);
       setNote("");
@@ -79,8 +82,13 @@ export default function FavouritesList({ cards }: { cards: FavouriteCard[] }) {
             Compare selected ({picked.length})
           </Link>
         ) : (
-          <button disabled>Compare selected ({picked.length})</button>
+          <button aria-disabled="true" aria-describedby="compare-hint" onClick={() => setNote("Tick two or three trails to compare.")}>
+            Compare selected ({picked.length})
+          </button>
         )}
+        <span id="compare-hint" className="muted">
+          Tick two or three trails.
+        </span>
         <p className="muted" aria-live="polite">
           {note}
         </p>
@@ -95,7 +103,7 @@ export default function FavouritesList({ cards }: { cards: FavouriteCard[] }) {
               <p className="muted">{c.summary}</p>
             </Link>
             <label className="pick">
-              <input type="checkbox" checked={picked.includes(c.id)} onChange={() => togglePick(c.id)} /> Compare
+              <input type="checkbox" aria-label={`Compare ${c.name}`} checked={picked.includes(c.id)} onChange={() => togglePick(c.id)} /> Compare
             </label>
           </li>
         ))}

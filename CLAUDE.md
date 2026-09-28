@@ -17,6 +17,8 @@ npm run build        # must pass before merging to main
 - `lib/format.ts` — `formatDate`, `formatTime`, `formatMoney`. The only way dates and money reach the UI.
 - `components/PageHeader.tsx` — the header block every page starts with.
 - `app/api/*/route.ts` — the only place external services are called.
+- `lib/weather.ts` — the one OpenWeather call (timeout, error codes), shared by `/api/weather` and `/api/compare`. Server-only.
+- `lib/favourites.ts` — favourites in `localStorage`; never throws, unreadable storage is `{ ok: false }`.
 
 ## Data shape
 - Region: `slug` (kebab-case, unique), `name`, `blurb` (one sentence).
@@ -26,7 +28,7 @@ npm run build        # must pass before merging to main
 - `tests/catalogue.test.ts` enforces this. If you add a field, add it to the test in the same change.
 
 ## Secrets
-- Variables: `OPENWEATHER_API_KEY` (read by `app/api/weather/route.ts`), `CONTEXT7_API_KEY` (read by Claude Code via `.mcp.json`).
+- Variables: `OPENWEATHER_API_KEY` (read by `lib/weather.ts`, used by `/api/weather` and `/api/compare`), `CONTEXT7_API_KEY` (read by Claude Code via `.mcp.json`).
 - Real values live in `.env` only (git-ignored). `.env.example` is the committed list — add every new variable there, empty.
 - In production the site's keys live in Vercel → Settings → Environment Variables.
 - External calls are server-side only. Never prefix a secret with `NEXT_PUBLIC_`. Never log a key or put it in an error message.

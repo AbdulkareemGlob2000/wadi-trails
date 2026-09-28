@@ -1,10 +1,9 @@
 import PageHeader from "@/components/PageHeader";
 import FavouritesList, { type FavouriteCard } from "@/components/FavouritesList";
-import { trails } from "@/data/catalogue";
-import { getRegion } from "@/lib/catalogue";
+import { getRegion, listAllTrails } from "@/lib/catalogue";
 
 export default function FavouritesPage() {
-  const cards: FavouriteCard[] = trails.map((t) => ({
+  const cards: FavouriteCard[] = listAllTrails().map((t) => ({
     id: t.id,
     name: t.name,
     summary: t.summary,
