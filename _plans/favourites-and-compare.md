@@ -35,10 +35,10 @@ See spec.
 | Phase | Name | Status |
 |---|---|---|
 | 1 | Elevation data and the favourites store | Done |
-| 2 | Favourites page | Not started |
+| 2 | Favourites page | Done |
 | 3 | Compare route handler and page | Not started |
 
-**Current state of the working tree** — Phase 1 committed; nothing uncommitted.
+**Current state of the working tree** — Phases 1–2 committed; nothing uncommitted.
 
 ## Action required
 
@@ -93,10 +93,10 @@ See spec.
 
 ### Tasks
 
-- [ ] Add a "Favourites" link to the nav in `app/layout.tsx`.
-- [ ] Create `app/favourites/page.tsx` as a server wrapper with a PageHeader. It passes a slim list of `{id, name, regionName, summary, image}` for all trails to a client component.
-- [ ] Create the `components/FavouritesList.tsx` client component with loading, empty, error (Retry calls read again) and success states, the Compare ticks with a max of 3 and a polite note, and a "Compare selected" link that is disabled below 2.
-- [ ] Listen for `favourites-changed` and `storage` events to refresh.
+- [x] Add a "Favourites" link to the nav in `app/layout.tsx`.
+- [x] Create `app/favourites/page.tsx` as a server wrapper with a PageHeader. It passes a slim list of `{id, name, regionName, summary, image}` for all trails to a client component.
+- [x] Create the `components/FavouritesList.tsx` client component with loading, empty, error (Retry calls read again) and success states, the Compare ticks with a max of 3 and a polite note, and a "Compare selected" link that is disabled below 2.
+- [x] Listen for `favourites-changed` and `storage` events to refresh.
 
 ### Technical details
 
@@ -169,3 +169,4 @@ None so far.
 | Date | Phases touched | Notes |
 |---|---|---|
 | 2026-09-28 | 1 | Session 1. Added elevationGainM to all 11 trails (type, data, test, CLAUDE.md, /add-category) and the favourites store + button. 26 tests green, build green. Browser: Save → "Saved — remove", aria-pressed=true, survives reload; Soap House shows 350 m. |
+| 2026-09-28 | 2 | Same Claude Code session as phase 1 (no /clear — see Deviations). Nav link, /favourites with loading/empty/error/success, compare ticks. Browser: empty message; 4 saved → newest first with region names; button disabled at 1 pick; 4th pick refused with note; link /compare?ids=a,b,c in tick order; corrupt storage → error + Retry. |

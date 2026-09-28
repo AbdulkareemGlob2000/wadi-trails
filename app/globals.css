@@ -40,3 +40,10 @@ button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid
 .search label { display: block; font-weight: 600; margin-bottom: 4px; }
 .search input { font: inherit; width: 100%; max-width: 360px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; }
 .search p { margin: 6px 0 0; }
+
+.site-nav { display: flex; gap: 16px; }
+.compare-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.compare-bar p { margin: 0; }
+.button { display: inline-block; padding: 6px 14px; border-radius: 6px; background: var(--accent); color: #fff; text-decoration: none; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.pick { display: block; padding: 0 12px 12px; }

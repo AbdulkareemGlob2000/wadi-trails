@@ -13,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <nav className="site-nav">
           <Link href="/">Wadi Trails</Link>
+          <Link href="/favourites">Favourites</Link>
         </nav>
         <main>{children}</main>
       </body>
