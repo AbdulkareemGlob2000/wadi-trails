@@ -6,6 +6,7 @@ export type Trail = {
   name: string;
   summary: string;
   distanceKm: number;
+  elevationGainM: number;
   difficulty: "easy" | "moderate" | "hard";
   entryFee: { amount: number; currency: "JOD" };
   lastSurveyed: string;
@@ -39,6 +40,7 @@ export const trails: Trail[] = [
     name: "Soap House Trail",
     summary: "A forest loop from the Ajloun reserve down to the village soap workshop.",
     distanceKm: 7,
+    elevationGainM: 350,
     difficulty: "moderate",
     entryFee: { amount: 7, currency: "JOD" },
     lastSurveyed: "2026-04-11",
@@ -52,6 +54,7 @@ export const trails: Trail[] = [
     name: "Roe Deer Trail",
     summary: "A short, shaded circuit inside the reserve, good for a first walk.",
     distanceKm: 2,
+    elevationGainM: 80,
     difficulty: "easy",
     entryFee: { amount: 3.5, currency: "JOD" },
     lastSurveyed: "2026-05-02",
@@ -65,6 +68,7 @@ export const trails: Trail[] = [
     name: "Castle Ridge Walk",
     summary: "Olive terraces and ridge views ending at Ajloun Castle.",
     distanceKm: 11.5,
+    elevationGainM: 520,
     difficulty: "hard",
     entryFee: { amount: 0, currency: "JOD" },
     lastSurveyed: "2026-03-14",
@@ -78,6 +82,7 @@ export const trails: Trail[] = [
     name: "Siq Trail",
     summary: "Wade and scramble upstream through the narrow Wadi Mujib gorge to a waterfall.",
     distanceKm: 2,
+    elevationGainM: 60,
     difficulty: "moderate",
     entryFee: { amount: 21, currency: "JOD" },
     lastSurveyed: "2026-06-20",
@@ -91,6 +96,7 @@ export const trails: Trail[] = [
     name: "Ibex Trail",
     summary: "A guided ridge walk above the Mujib reserve with views over the Dead Sea.",
     distanceKm: 6,
+    elevationGainM: 420,
     difficulty: "moderate",
     entryFee: { amount: 25, currency: "JOD" },
     lastSurveyed: "2026-02-08",
@@ -104,6 +110,7 @@ export const trails: Trail[] = [
     name: "Hammamat Ma'in Canyon",
     summary: "A descent along Wadi Zarqa Ma'in past hot springs and palm-lined pools.",
     distanceKm: 9,
+    elevationGainM: 180,
     difficulty: "hard",
     entryFee: { amount: 20, currency: "JOD" },
     lastSurveyed: "2025-11-15",
@@ -117,6 +124,7 @@ export const trails: Trail[] = [
     name: "Wadi Numeira",
     summary: "A short out-and-back into a slot canyon just off the Dead Sea highway.",
     distanceKm: 4,
+    elevationGainM: 90,
     difficulty: "easy",
     entryFee: { amount: 15, currency: "JOD" },
     lastSurveyed: "2026-04-03",
@@ -130,6 +138,7 @@ export const trails: Trail[] = [
     name: "Jebel Umm ad Dami",
     summary: "A steep scramble to Jordan's highest summit, looking across into Saudi Arabia.",
     distanceKm: 3.5,
+    elevationGainM: 480,
     difficulty: "hard",
     entryFee: { amount: 5, currency: "JOD" },
     lastSurveyed: "2026-01-24",
@@ -143,6 +152,7 @@ export const trails: Trail[] = [
     name: "Burdah Rock Bridge",
     summary: "A climb up a sandstone dome to a natural arch high above the Wadi Rum floor.",
     distanceKm: 3,
+    elevationGainM: 300,
     difficulty: "hard",
     entryFee: { amount: 5, currency: "JOD" },
     lastSurveyed: "2026-03-02",
@@ -156,6 +166,7 @@ export const trails: Trail[] = [
     name: "Khazali Canyon",
     summary: "A short walk into a cleft lined with Thamudic rock inscriptions.",
     distanceKm: 1,
+    elevationGainM: 10,
     difficulty: "easy",
     entryFee: { amount: 5, currency: "JOD" },
     lastSurveyed: "2026-05-18",
@@ -169,6 +180,7 @@ export const trails: Trail[] = [
     name: "Monastery Back Trail",
     summary: "The quiet route from Little Petra over the hills to the Monastery.",
     distanceKm: 8,
+    elevationGainM: 430,
     difficulty: "moderate",
     entryFee: { amount: 50, currency: "JOD" },
     lastSurveyed: "2026-04-27",

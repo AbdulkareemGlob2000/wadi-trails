@@ -16,6 +16,7 @@ describe("catalogue data", () => {
     for (const t of trails) {
       expect(t.name && t.summary, t.id).toBeTruthy();
       expect(t.distanceKm, t.id).toBeGreaterThan(0);
+      expect(Number.isInteger(t.elevationGainM) && t.elevationGainM >= 0, t.id).toBe(true);
       expect(["easy", "moderate", "hard"]).toContain(t.difficulty);
       expect(t.entryFee.currency).toBe("JOD");
       expect(Number.isNaN(Date.parse(t.lastSurveyed)), t.id).toBe(false);

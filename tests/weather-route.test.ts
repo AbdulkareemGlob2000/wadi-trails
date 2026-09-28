@@ -9,24 +9,27 @@ afterEach(() => {
 });
 
 describe("GET /api/weather", () => {
-  it("rejects missing coordinates with the error envelope", async () => {
-    const res = await call("");
+  it.each([
+    ["missing coordinates", ""],
+    ["out-of-range coordinates", "?lat=999&lon=35.7"],
+  ])("rejects %s with the error envelope, without the key", async (_name, qs) => {
+    vi.stubEnv("OPENWEATHER_API_KEY", "test-key");
+    const res = await call(qs);
+    const text = await res.text();
     expect(res.status).toBe(400);
-    expect((await res.json()).error.code).toBe("BAD_COORDINATES");
+    expect(JSON.parse(text).error.code).toBe("BAD_COORDINATES");
+    expect(text).not.toContain("test-key");
   });
 
   it("returns 503 when the key is missing", async () => {
     vi.stubEnv("OPENWEATHER_API_KEY", "");
     const res = await call("?lat=32.3&lon=35.7");
+    const text = await res.text();
     expect(res.status).toBe(503);
-    expect(await res.json()).toEqual({
+    expect(JSON.parse(text)).toEqual({
       error: { code: "WEATHER_NOT_CONFIGURED", message: "The weather service is not configured." },
     });
-  });
-
-  it("rejects out-of-range coordinates", async () => {
-    const res = await call("?lat=999&lon=35.7");
-    expect(res.status).toBe(400);
+    expect(text).not.toMatch(/appid=/);
   });
 
   it.each([
