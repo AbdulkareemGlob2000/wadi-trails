@@ -35,3 +35,8 @@ a { color: var(--accent); }
 
 .state-error { border-left: 3px solid #b3261e; padding-left: 12px; }
 button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+
+.search { margin-bottom: 16px; }
+.search label { display: block; font-weight: 600; margin-bottom: 4px; }
+.search input { font: inherit; width: 100%; max-width: 360px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; }
+.search p { margin: 6px 0 0; }
