@@ -15,6 +15,14 @@ You review the current branch's diff against main. You do not fix anything.
 - Dates and money use the house formatters, never toLocaleString or a symbol.
 - Every image has alt text and dimensions.
 - The data file is valid and every item has every required field.
+<!-- added 28 Sep: the home page region list shipped with only empty/success — no app/loading.tsx or app/error.tsx -->
+- Every route segment that renders a list has its own `loading.tsx` and `error.tsx`, including the root `app/`.
+<!-- added 28 Sep: WeatherPanel called res.json() before checking res.ok, so a non-JSON 500 showed "check your connection" -->
+- Client fetches check `res.ok` before trusting the body, and a body that fails to parse is an error state, not a network error.
+<!-- added 28 Sep: /api/weather returned 200 with tempC: null when the upstream body was missing main.temp -->
+- Route handlers validate the upstream body's shape before mapping it; a bad shape is a 502 envelope, never a 200 with nulls.
+<!-- added 28 Sep: only the 400/503/200 paths of /api/weather were tested; timeout and upstream failures had no test -->
+- Every error code a route handler can return has a test, and each test asserts the key is not in the response.
 
 ## Output
 For each finding: file and line, the rule, one sentence on why, the smallest fix.

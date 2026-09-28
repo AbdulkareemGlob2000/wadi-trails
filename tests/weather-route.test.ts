@@ -24,6 +24,26 @@ describe("GET /api/weather", () => {
     });
   });
 
+  it("rejects out-of-range coordinates", async () => {
+    const res = await call("?lat=999&lon=35.7");
+    expect(res.status).toBe(400);
+  });
+
+  it.each([
+    ["timeout", () => Promise.reject(new DOMException("", "TimeoutError")), 504, "WEATHER_TIMEOUT"],
+    ["upstream 500", async () => new Response("", { status: 500 }), 502, "WEATHER_UPSTREAM"],
+    ["malformed body", async () => new Response("not json"), 502, "WEATHER_BAD_RESPONSE"],
+    ["network error", () => Promise.reject(new TypeError("fetch failed")), 502, "WEATHER_UPSTREAM"],
+  ])("returns the envelope on %s without leaking the key", async (_name, impl, status, code) => {
+    vi.stubEnv("OPENWEATHER_API_KEY", "test-key");
+    vi.stubGlobal("fetch", vi.fn(impl));
+    const res = await call("?lat=32.3&lon=35.7");
+    const text = await res.text();
+    expect(res.status).toBe(status);
+    expect(JSON.parse(text).error.code).toBe(code);
+    expect(text).not.toContain("test-key");
+  });
+
   it("maps a successful upstream answer", async () => {
     vi.stubEnv("OPENWEATHER_API_KEY", "test-key");
     vi.stubGlobal(
