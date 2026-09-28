@@ -24,3 +24,9 @@ Keep `app/regions/[slug]/page.tsx` a statically generated server component. It p
 ## Risks
 - `useSearchParams` in a client component on a static page needs a Suspense boundary, or the build complains. Reading `window.location` in an effect avoids that.
 - Until the effect runs, a first paint of a `?q=` URL shows the full list. That's acceptable for a static page.
+
+## Outcome (28 Sep 2026)
+- Steps 1–7 done. Build output shows `/regions/[slug]` still ● SSG for all three regions.
+- Browser pass: `?q=canyon` → "2 of 4 trails" with the box filled (after hydration — first paint shows all 4, as predicted under Risks); "glacier" → no-match message; Clear search → "4 of 4", `q` removed from the URL.
+- One wrong test expectation fixed ("waterfall" is in Ma'in's image alt text, not its summary, so it is not matched).
+- site-reviewer: no BLOCKING; two ADVISORY (URL `q` not capped at 60, untrimmed `q` written to the URL) — both fixed, and a checklist line added for the first.

@@ -23,6 +23,8 @@ You review the current branch's diff against main. You do not fix anything.
 - Route handlers validate the upstream body's shape before mapping it; a bad shape is a 502 envelope, never a 200 with nulls.
 <!-- added 28 Sep: only the 400/503/200 paths of /api/weather were tested; timeout and upstream failures had no test -->
 - Every error code a route handler can return has a test, and each test asserts the key is not in the response.
+<!-- added 28 Sep: search read ?q= from the URL without the 60-char cap that the input's maxLength enforced -->
+- Values read from the URL (search params, route params) get the same validation as the form input they mirror.
 
 ## Output
 For each finding: file and line, the rule, one sentence on why, the smallest fix.
