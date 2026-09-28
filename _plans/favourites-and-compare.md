@@ -5,7 +5,7 @@
 | **Slug** | `favourites-and-compare` |
 | **Spec** | `_specs/favourites-and-compare.md` |
 | **Branch** | `claude/feature/favourites-and-compare` |
-| **Status** | Not started |
+| **Status** | In progress |
 | **Created** | 2026-09-28 |
 | **Updated** | 2026-09-28 |
 
@@ -34,11 +34,11 @@ See spec.
 
 | Phase | Name | Status |
 |---|---|---|
-| 1 | Elevation data and the favourites store | Not started |
+| 1 | Elevation data and the favourites store | Done |
 | 2 | Favourites page | Not started |
 | 3 | Compare route handler and page | Not started |
 
-**Current state of the working tree** — Only the untracked spec, which is committed together with this plan.
+**Current state of the working tree** — Phase 1 committed; nothing uncommitted.
 
 ## Action required
 
@@ -54,12 +54,12 @@ See spec.
 
 ### Tasks
 
-- [ ] Add `elevationGainM: number` to `Trail` in `data/catalogue.ts` and give all 11 trails a value.
-- [ ] Require `elevationGainM >= 0` (a whole number) in `tests/catalogue.test.ts`, and add the field to CLAUDE.md's Data shape and to `/add-category` step 4.
-- [ ] Show "Elevation gain" in the facts list on `app/trails/[id]/page.tsx`.
-- [ ] Create `lib/favourites.ts` with read, save, remove and toggle functions (depends on nothing).
-- [ ] Create `tests/favourites.test.ts`.
-- [ ] Create the `components/FavouriteButton.tsx` client component and add it to the trail page (depends on the store).
+- [x] Add `elevationGainM: number` to `Trail` in `data/catalogue.ts` and give all 11 trails a value.
+- [x] Require `elevationGainM >= 0` (a whole number) in `tests/catalogue.test.ts`, and add the field to CLAUDE.md's Data shape and to `/add-category` step 4.
+- [x] Show "Elevation gain" in the facts list on `app/trails/[id]/page.tsx`.
+- [x] Create `lib/favourites.ts` with read, save, remove and toggle functions (depends on nothing).
+- [x] Create `tests/favourites.test.ts`.
+- [x] Create the `components/FavouriteButton.tsx` client component and add it to the trail page (depends on the store).
 
 ### Technical details
 
@@ -168,4 +168,4 @@ None so far.
 
 | Date | Phases touched | Notes |
 |---|---|---|
-| | | |
+| 2026-09-28 | 1 | Session 1. Added elevationGainM to all 11 trails (type, data, test, CLAUDE.md, /add-category) and the favourites store + button. 26 tests green, build green. Browser: Save → "Saved — remove", aria-pressed=true, survives reload; Soap House shows 350 m. |

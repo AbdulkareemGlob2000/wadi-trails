@@ -21,7 +21,7 @@ npm run build        # must pass before merging to main
 ## Data shape
 - Region: `slug` (kebab-case, unique), `name`, `blurb` (one sentence).
 - Trail: `id` (kebab-case, unique, prefixed with a place name), `regionSlug` (must exist), `name`, `summary` (one sentence),
-  `distanceKm` (> 0), `difficulty` (`easy` | `moderate` | `hard`), `entryFee` (`{ amount, currency: "JOD" }`),
+  `distanceKm` (> 0), `elevationGainM` (whole metres, >= 0), `difficulty` (`easy` | `moderate` | `hard`), `entryFee` (`{ amount, currency: "JOD" }`),
   `lastSurveyed` (ISO date), `lat`, `lon` (trailhead), `image` (`{ src, alt, width, height }`, local file under `public/images/`).
 - `tests/catalogue.test.ts` enforces this. If you add a field, add it to the test in the same change.
 
