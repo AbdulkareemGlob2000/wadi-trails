@@ -1,7 +1,7 @@
 # Submission
 
 - Site: https://wadi-trails.vercel.app/
-- Preview deployment from a feature branch: **⟨FILL IN: Vercel preview URL for `claude/feature/favourites-and-compare`⟩**
+- Preview deployment from a feature branch: https://wadi-trails-git-claude-featurefavou-bc99d1-abdulkareem-glob2000.vercel.app (branch `claude/feature/favourites-and-compare`)
 - Stack: Next.js 15.5.26 (App Router), React 19.3.0, TypeScript 5.9.3, Vitest 3.2.7, Node 20
 - External service and the variable that holds its key: OpenWeather current weather / `OPENWEATHER_API_KEY`. It is read only in `lib/weather.ts`, which is called by the route handlers `/api/weather` and `/api/compare`.
 
@@ -59,8 +59,9 @@
 - **The home page shipped without loading and error states.** The house-style skill requires them, and I assumed the root had them because the region page did. The reviewer caught it. Fixed with `app/loading.tsx` and `app/error.tsx`, plus reviewer rule 1 (`6c3461d`). The same rule then caught the same gap in `app/favourites` and `app/compare` on Feature B, so the ratchet paid off.
 - **A reviewer suggestion that didn't work.** I applied the reviewer's `requestAnimationFrame` fix for re-announcing "You can compare up to three trails." A browser check showed the note never appeared, because rAF doesn't fire in a tab that isn't painting. Switched to `setTimeout` and added reviewer rule 8 (`7a21e6c`).
 - **A wrong test on Feature A.** One expectation was wrong: "waterfall" is in an image's alt text, not the summary. The test was fixed, not the code.
-- **New OpenWeather key not yet active at first deploy.** On 28 Sep the live `/api/weather` returned `WEATHER_UPSTREAM` ("The weather service answered 401."). The key reached Vercel (a missing key gives `WEATHER_NOT_CONFIGURED`), but OpenWeather had not activated it yet. The house error state with Retry showed as designed. The key was also pasted into a chat once, so it will be rotated after marking.
+- **New OpenWeather key not yet active at first deploy.** On 28 Sep the live `/api/weather` returned `WEATHER_UPSTREAM` ("The weather service answered 401."). The key reached Vercel (a missing key gives `WEATHER_NOT_CONFIGURED`), but OpenWeather had not activated it yet. The house error state with Retry showed as designed. By 16:17 UTC the same day the key was active and `/api/weather` returned live data with no redeploy. The key was also pasted into a chat once, so it will be rotated after marking.
 - **A key typed into the committed file.** While setting up, I first pasted the OpenWeather key into `.env.example`, the committed list, instead of `.env`. It was caught before any commit: `git status` showed the file modified, `git log --all -p` had no trace of the key, and `git restore .env.example` put it back. The key then went into `.env`, which is ignored.
+- **Previews were behind a Vercel login.** Vercel Deployment Protection is on by default, so the branch preview redirected to a Vercel sign-in page. I turned off Vercel Authentication under Settings → Deployment Protection so the marker can open it.
 - **`.mcp.json` doesn't read `.env`.** Claude Code fills `${CONTEXT7_API_KEY}` from the process environment, so the key has to be loaded into the shell first. The README now says so.
 - **Office network.** The first `npm install` failed with `ECONNRESET`. A retry with `--fetch-retries=5` worked; no config was changed.
 - **Browser checks.** They were done in the Claude desktop app's built-in browser, not the Playwright MCP, because the session wasn't opened in this folder.
