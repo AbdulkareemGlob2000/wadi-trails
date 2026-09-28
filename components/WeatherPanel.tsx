@@ -17,7 +17,7 @@ export default function WeatherPanel({ lat, lon }: { lat: number; lon: number })
     setState({ kind: "loading" });
     try {
       const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
-      const body = await res.json();
+      const body = await res.json().catch(() => null);
       if (!res.ok) {
         setState({ kind: "error", message: body?.error?.message ?? "Weather could not be loaded." });
       } else if (!body || typeof body.tempC !== "number") {

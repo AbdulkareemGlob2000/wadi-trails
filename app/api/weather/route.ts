@@ -10,8 +10,11 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const lat = Number(url.searchParams.get("lat"));
   const lon = Number(url.searchParams.get("lon"));
-  if (!url.searchParams.get("lat") || !url.searchParams.get("lon") || Number.isNaN(lat) || Number.isNaN(lon)) {
-    return fail(400, "BAD_COORDINATES", "lat and lon must be numbers.");
+  const valid =
+    url.searchParams.get("lat") && url.searchParams.get("lon") &&
+    Number.isFinite(lat) && Math.abs(lat) <= 90 && Number.isFinite(lon) && Math.abs(lon) <= 180;
+  if (!valid) {
+    return fail(400, "BAD_COORDINATES", "lat and lon must be valid coordinates.");
   }
 
   const key = process.env.OPENWEATHER_API_KEY;
@@ -25,7 +28,10 @@ export async function GET(request: Request) {
     if (!res.ok) {
       return fail(502, "WEATHER_UPSTREAM", `The weather service answered ${res.status}.`);
     }
-    const body = await res.json();
+    const body = await res.json().catch(() => null);
+    if (typeof body?.main?.temp !== "number" || typeof body?.dt !== "number") {
+      return fail(502, "WEATHER_BAD_RESPONSE", "The weather service sent an unreadable answer.");
+    }
     const weather: Weather = {
       tempC: Math.round(body.main.temp),
       description: body.weather?.[0]?.description ?? "unknown",
