@@ -1,6 +1,6 @@
 # Submission
 
-- Site: **⟨FILL IN: Vercel production URL⟩**
+- Site: https://wadi-trails.vercel.app/
 - Preview deployment from a feature branch: **⟨FILL IN: Vercel preview URL for `claude/feature/favourites-and-compare`⟩**
 - Stack: Next.js 15.5.26 (App Router), React 19.3.0, TypeScript 5.9.3, Vitest 3.2.7, Node 20
 - External service and the variable that holds its key: OpenWeather current weather / `OPENWEATHER_API_KEY`. It is read only in `lib/weather.ts`, which is called by the route handlers `/api/weather` and `/api/compare`.
@@ -49,6 +49,7 @@
 - **The home page shipped without loading and error states.** The house-style skill requires them, and I assumed the root had them because the region page did. The reviewer caught it. Fixed with `app/loading.tsx` and `app/error.tsx`, plus reviewer rule 1 (`6c3461d`). The same rule then caught the same gap in `app/favourites` and `app/compare` on Feature B, so the ratchet paid off.
 - **A reviewer suggestion that didn't work.** I applied the reviewer's `requestAnimationFrame` fix for re-announcing "You can compare up to three trails." A browser check showed the note never appeared, because rAF doesn't fire in a tab that isn't painting. Switched to `setTimeout` and added reviewer rule 8 (`7a21e6c`).
 - **A wrong test on Feature A.** One expectation was wrong: "waterfall" is in an image's alt text, not the summary. The test was fixed, not the code.
+- **New OpenWeather key not yet active at first deploy.** On 28 Sep the live `/api/weather` returned `WEATHER_UPSTREAM` ("The weather service answered 401."). The key reached Vercel (a missing key gives `WEATHER_NOT_CONFIGURED`), but OpenWeather had not activated it yet. The house error state with Retry showed as designed. The key was also pasted into a chat once, so it will be rotated after marking.
 - **Office network.** The first `npm install` failed with `ECONNRESET`. A retry with `--fetch-retries=5` worked; no config was changed.
 - **Browser checks.** They were done in the Claude desktop app's built-in browser, not the Playwright MCP, because the session wasn't opened in this folder.
 
