@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+
+# secrets — .env.example is the committed list
+.env
+.env.local
+.env.*.local
