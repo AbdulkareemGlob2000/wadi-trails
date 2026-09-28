@@ -11,10 +11,20 @@
   - "`tests/catalogue.test.ts` enforces this. If you add a field, add it to the test in the same change." Feature B added `elevationGainM` to the type, the data, the test, CLAUDE.md and `/add-category` in one commit (`850cabd`).
   - "`lib/weather.ts` — the one OpenWeather call … shared by `/api/weather` and `/api/compare`. Server-only." This was added when the second route handler arrived, so the timeout and error codes can't drift apart.
   - The Definition of done names the `site-reviewer` and the Playwright check. The reviewer ran 5 times in total; every run is recorded below.
-- **MCP:** `.mcp.json` has Context7 over HTTP with `Authorization: Bearer ${CONTEXT7_API_KEY}` and Playwright over stdio. `claude mcp list` output:
+- **MCP:** `.mcp.json` has Context7 over HTTP with `Authorization: Bearer ${CONTEXT7_API_KEY}` and Playwright over stdio. `claude mcp list` output, run in this folder on 28 Sep 2026. The `claude.ai …` lines are connectors on my Claude account, not project scope; the last two lines come from `.mcp.json`.
   ```
-  ⟨FILL IN: paste the output of `claude mcp list`, run in this folder with CONTEXT7_API_KEY in .env⟩
+  claude.ai Claude Docs: https://api.anthropic.com/v1/pages/mcp - ✔ Connected
+  claude.ai Notion: https://mcp.notion.com/mcp - ! Needs authentication
+  claude.ai Atlassian Rovo: https://mcp.atlassian.com/v1/mcp/authv2 - ✔ Connected
+  claude.ai Google Drive: https://drivemcp.googleapis.com/mcp/v1 - ✔ Connected
+  claude.ai Consensus: https://mcp.consensus.app/mcp - ! Needs authentication
+  claude.ai Lovable: https://mcp.lovable.dev - ! Needs authentication
+  claude.ai Figma: https://mcp.figma.com/mcp - ! Needs authentication
+  claude.ai Microsoft 365: https://microsoft365.mcp.claude.com/mcp - ! Needs authentication
+  context7: https://mcp.context7.com/mcp (HTTP) - ✔ Connected
+  playwright: npx -y @playwright/mcp@latest - ✔ Connected
   ```
+  Note: Claude Code takes `${CONTEXT7_API_KEY}` from the shell environment, not from `.env`. I had to load `.env` into the PowerShell session before `claude mcp list` saw the key (see What went wrong).
 - **Skill:** `.claude/skills/house-style/`, containing SKILL.md, references/rules.md and assets/page-header.tsx. It was **not observed firing on its own** during Feature B. The work ran in a Claude Code session opened in another folder, so the project skill was never loaded. It was applied by reading it. I have no transcript line to point to.
 - **Reviewer:** `.claude/agents/site-reviewer.md` has 8 rules added after the starter, each annotated with its incident:
   1. The home region list had no `loading.tsx`/`error.tsx`. Rule added: every list segment has its own loading and error files.
@@ -50,6 +60,8 @@
 - **A reviewer suggestion that didn't work.** I applied the reviewer's `requestAnimationFrame` fix for re-announcing "You can compare up to three trails." A browser check showed the note never appeared, because rAF doesn't fire in a tab that isn't painting. Switched to `setTimeout` and added reviewer rule 8 (`7a21e6c`).
 - **A wrong test on Feature A.** One expectation was wrong: "waterfall" is in an image's alt text, not the summary. The test was fixed, not the code.
 - **New OpenWeather key not yet active at first deploy.** On 28 Sep the live `/api/weather` returned `WEATHER_UPSTREAM` ("The weather service answered 401."). The key reached Vercel (a missing key gives `WEATHER_NOT_CONFIGURED`), but OpenWeather had not activated it yet. The house error state with Retry showed as designed. The key was also pasted into a chat once, so it will be rotated after marking.
+- **A key typed into the committed file.** While setting up, I first pasted the OpenWeather key into `.env.example`, the committed list, instead of `.env`. It was caught before any commit: `git status` showed the file modified, `git log --all -p` had no trace of the key, and `git restore .env.example` put it back. The key then went into `.env`, which is ignored.
+- **`.mcp.json` doesn't read `.env`.** Claude Code fills `${CONTEXT7_API_KEY}` from the process environment, so the key has to be loaded into the shell first. The README now says so.
 - **Office network.** The first `npm install` failed with `ECONNRESET`. A retry with `--fetch-retries=5` worked; no config was changed.
 - **Browser checks.** They were done in the Claude desktop app's built-in browser, not the Playwright MCP, because the session wasn't opened in this folder.
 
